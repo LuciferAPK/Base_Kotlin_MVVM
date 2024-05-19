@@ -1,0 +1,27 @@
+<resources>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="FullScreenDialogStyle" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+
+    <style name="DialogAnimation" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowEnterAnimation">@anim/dialog_show_down</item>
+        <item name="android:windowExitAnimation">@anim/dialog_hide_up</item>
+    </style>
+
+</resources>

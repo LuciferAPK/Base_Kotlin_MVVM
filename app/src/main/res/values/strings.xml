@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Base Kotlin MVVM</string>
+
+    <!-- OFFLINE MODE -->
+    <string name="internet_restored">Internet connection restored</string>
+    <string name="no_internet">No internet connection</string>
+</resources>
