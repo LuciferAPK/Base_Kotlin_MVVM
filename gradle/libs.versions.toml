@@ -16,10 +16,7 @@ gson = "2.10.1"
 utilcode = "1.30.7"
 shimmer = "0.5.0"
 blurview = "1.6.6"
-hiltVersion = "2.45"
-hilt = "1.0.0"
-navigation = "2.5.1"
-workManager = "2.9.0"
+hiltVersion = "2.48"
 cmp = "2.2.0"
 pushdownViewVersion = "1.1.1"
 
@@ -48,15 +45,10 @@ shimmer = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shi
 #Dagger - Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt" }
-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt" }
-hilt = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt" }
-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
-#
-work-manager = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 cmp = { group = "com.google.android.ump", name = "user-messaging-platform", version.ref = "cmp" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
+hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }

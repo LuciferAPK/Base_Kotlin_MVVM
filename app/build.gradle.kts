@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -80,12 +81,6 @@ dependencies {
     /** Dagger Hilt */
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-    implementation(libs.hilt.work)
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt)
-    implementation(libs.navigation)
-
-    implementation(libs.work.manager)
 
     /** CMP */
     implementation(libs.cmp)
