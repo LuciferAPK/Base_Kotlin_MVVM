@@ -82,6 +82,13 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment)
+
+    /** ViewModel - Live Data*/
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
     /** CMP */
     implementation(libs.cmp)
 

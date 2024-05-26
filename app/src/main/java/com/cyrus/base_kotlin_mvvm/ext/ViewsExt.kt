@@ -3,9 +3,11 @@ package com.cyrus.base_kotlin_mvvm.ext
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import com.cyrus.base_kotlin_mvvm.utils.AppConfigUtils.dpToPx
 
 var View.isHidden: Boolean
@@ -134,4 +136,10 @@ private fun TextView.setDrawables(
         setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, buttom)
     else
         setCompoundDrawablesWithIntrinsicBounds(start, top, end, buttom)
+}
+
+inline fun <reified T : ViewBinding> ViewGroup.viewBinding(
+    crossinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> T
+): T {
+    return bindingInflater.invoke(LayoutInflater.from(context), this, false)
 }

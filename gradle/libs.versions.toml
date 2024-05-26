@@ -18,7 +18,9 @@ shimmer = "0.5.0"
 blurview = "1.6.6"
 hiltVersion = "2.48"
 cmp = "2.2.0"
-pushdownViewVersion = "1.1.1"
+activity = "1.9.0"
+fragment = "1.7.1"
+viewModelVersion = "2.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +48,11 @@ shimmer = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shi
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
 cmp = { group = "com.google.android.ump", name = "user-messaging-platform", version.ref = "cmp" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
+#ViewModel - LiveData
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModelVersion" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "viewModelVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
