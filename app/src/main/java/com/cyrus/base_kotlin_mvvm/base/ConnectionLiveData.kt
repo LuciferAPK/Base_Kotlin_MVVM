@@ -69,15 +69,15 @@ class ConnectionLiveData(private val context: Context) : LiveData<Boolean>() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             connectivityManagerCallback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
-                    postValue(true)
+                    if(value == false) postValue(true)
                 }
 
                 override fun onLost(network: Network) {
-                    postValue(false)
+                    if (value == true) postValue(false)
                 }
 
                 override fun onUnavailable() {
-                    postValue(false)
+                    if (value == true) postValue(false)
                 }
             }
             return connectivityManagerCallback
@@ -107,11 +107,11 @@ class ConnectionLiveData(private val context: Context) : LiveData<Boolean>() {
                 }
 
                 override fun onLost(network: Network) {
-                    postValue(false)
+                    if(value == true) postValue(false)
                 }
 
                 override fun onUnavailable() {
-                    postValue(false)
+                    if(value == true) postValue(false)
                 }
             }
             return connectivityManagerCallback
@@ -131,7 +131,8 @@ class ConnectionLiveData(private val context: Context) : LiveData<Boolean>() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         /*if (ApplicationContext.getNetworkContext().isNetworkConnected != NetworkUtils.isConnected() || !NetworkUtils.isConnected()) {
                 LoggerUtils.d("TAG", "POST_INTERNET::updateConnection: ${activeNetwork?.isConnectedOrConnecting}")*/
-        postValue(activeNetwork?.isConnectedOrConnecting == true)
+        val newValue = activeNetwork?.isConnectedOrConnecting == true
+        if (newValue != value) postValue(newValue)
         /*ApplicationContext.getNetworkContext().isNetworkConnected = NetworkUtils.isConnected()
     }*/
 

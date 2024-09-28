@@ -1,8 +1,6 @@
 package com.cyrus.base_kotlin_mvvm.base
 
 import android.app.SharedElementCallback
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.pm.ActivityInfo
 import android.graphics.Rect
 import android.os.Bundle
@@ -10,23 +8,34 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.blankj.utilcode.util.NetworkUtils
-import com.cyrus.base_kotlin_mvvm.App
 import com.cyrus.base_kotlin_mvvm.R
 import com.cyrus.base_kotlin_mvvm.utils.CommonUtils
 import com.cyrus.base_kotlin_mvvm.utils.KeyboardUtils.hideKeyboard
 import com.cyrus.base_kotlin_mvvm.utils.StatusBarUtils
-import java.util.Locale
 
 abstract class BaseActivity<BINDING : ViewDataBinding> : AppCompatActivity() {
     lateinit var binding: BINDING
-    private var connectionLiveData: ConnectionLiveData? = null
+    private val connectionLiveData by lazy { ConnectionLiveData(this) }
     private var connectInternet = true
     protected lateinit var view: View
+
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (!handleClickBack()) {
+                isEnabled = false
+                hideKeyboard(this@BaseActivity)
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
+
+    open fun isObserveNetworkStatus(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +48,18 @@ abstract class BaseActivity<BINDING : ViewDataBinding> : AppCompatActivity() {
         getLayoutLoading()
         initListener()
         observerLiveData()
-        showConnectInternet()
+        if (isObserveNetworkStatus())
+            showConnectInternet()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        backPressedCallback.remove()
     }
 
     abstract fun getContentLayout(): Int
@@ -51,26 +71,6 @@ abstract class BaseActivity<BINDING : ViewDataBinding> : AppCompatActivity() {
     abstract fun observerLiveData()
 
     abstract fun getLayoutLoading(): BaseLoadingView?
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        hideKeyboard(this)
-    }
-
-    /*override fun attachBaseContext(newBase: Context) {
-        if (WallParallaxApp.instance.preferencesManager.getBoolean(PreferencesKey.IS_LANGUAGE_CHOSEN)) {
-            val localeToSwitchTo = Locale(
-                App.instance.preferencesManager.getString(
-                    PreferencesKey.LANGUAGE_CHOSEN
-                ) ?: Locale.getDefault().language
-            )
-            val localeUpdatedContext: ContextWrapper =
-                ContextUtils.updateLocale(newBase, localeToSwitchTo)
-            super.attachBaseContext(localeUpdatedContext)
-        } else {
-            super.attachBaseContext(newBase)
-        }
-    }*/
 
     /**@param event detect clear focus edittext when touch outside */
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -98,12 +98,8 @@ abstract class BaseActivity<BINDING : ViewDataBinding> : AppCompatActivity() {
         getLayoutLoading()?.setupLoading(isLoading = isLoading, timeNeedForDelay, callback)
     }
 
-    protected fun setConnectLiveData(connectionLiveData: ConnectionLiveData) {
-        this.connectionLiveData = connectionLiveData
-    }
-
     private fun showConnectInternet() {
-        connectionLiveData?.observe(this) { isConnected ->
+        connectionLiveData.observe(this) { isConnected ->
             if (connectInternet != isConnected) {
                 if (isConnected)
                     CommonUtils.showSnackBarNoInternet(
@@ -136,8 +132,10 @@ abstract class BaseActivity<BINDING : ViewDataBinding> : AppCompatActivity() {
         view.setPadding(0, StatusBarUtils.getStatusBarHeight(baseContext), 0, 0)
     }
 
-    open fun onBackPressedLoading() {
+    open fun onBackPressedLoading() {}
 
+    open fun handleClickBack(): Boolean {
+        return false
     }
 
     fun isInitializedOfBinding(): Boolean = this::binding.isInitialized
